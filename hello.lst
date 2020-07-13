@@ -1,0 +1,41 @@
+AARCH64 GAS  hello.asm 			page 1
+
+
+   1              	
+   2              	/*  hello.asm
+   3              	         * Prints "Hello World\n" and returns 0.
+   4              	         Compile:
+   5              	            as -o hello.o hello.asm
+   6              	            gcc -o hello hello.o
+   7              	         Run:
+   8              	            ./hello
+   9              	*/
+  10              	    .section .rodata // Read-only data section
+  11 0000 48656C6C 	mesg: .asciz "Hello World\nNext Time\n" // Define null-terminated string
+  11      6F20576F 
+  11      726C640A 
+  11      4E657874 
+  11      2054696D 
+  12              	    .text // Text section
+  13              	    .global main
+  14              	main: 
+  15 0000 FD7BBFA9 	    stp x29, x30, [sp, #-16]!
+  16              	    // printf("Hello World\n")
+  17 0004 00000010 	    adr x0, mesg
+  18 0008 00000094 	    bl printf
+  19              	
+  20              	     // return 0
+  21 000c 00008052 	    mov w0, #0
+  22 0010 FD7BC1A8 	    ldp x29, x30, [sp], #16
+  23 0014 C0035FD6 	    ret
+  24              	    .size main,(. - main)
+AARCH64 GAS  hello.asm 			page 2
+
+
+DEFINED SYMBOLS
+           hello.asm:11     .rodata:0000000000000000 mesg
+           hello.asm:14     .text:0000000000000000 main
+           hello.asm:15     .text:0000000000000000 $x
+
+UNDEFINED SYMBOLS
+printf
